@@ -204,6 +204,7 @@ DEPENDENCIES
   pg (~> 0.18)
   puma (~> 3.0)
   rails (~> 5.0.1)
+  rake
   rspec-rails (~> 3.5.2)
   rubocop (~> 0.47.1)
   sass-rails (~> 5.0)
