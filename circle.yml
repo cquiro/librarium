@@ -6,4 +6,4 @@ general:
 
 test:
   post:
-    - bundle exec rubocop -R
+    - bundle exec rubocop app -R
