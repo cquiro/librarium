@@ -17,3 +17,4 @@ rvm:
 
 script:
   - bundle exec rubocop app -R
+  - bundle exec rspec spec
