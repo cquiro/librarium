@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base # :nodoc:
 
   before_action :configure_permited_parameters, if: :devise_controller?
 
+  acts_as_token_authentication_handler_for User
+
   protected
 
   # allow user to sign up with a name
