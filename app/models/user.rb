@@ -18,4 +18,5 @@ class User < ApplicationRecord
   has_many :inverse_connections, class_name: 'Connection',
                                  foreign_key: 'followee_id'
   has_many :followers, through: :inverse_connections, source: :user
+  validates :name, presence: true
 end
