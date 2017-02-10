@@ -1,0 +1,9 @@
+general:
+  branches:
+    only:
+      # - master # list of branches to build
+      - models
+
+test:
+  post:
+    - bundle exec rubocop app -R
