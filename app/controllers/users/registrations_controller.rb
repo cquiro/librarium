@@ -8,7 +8,7 @@ module Users
     def create
       build_resource(user_params)
       if resource.save
-        render json: resource, status: 201
+        render json: resource, status: :created
       else
         render json: { errors: resource.errors }, status: :unprocessable_entity
       end
