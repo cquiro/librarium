@@ -1,4 +1,5 @@
 module Users
+  # override devise sessions controller to create a json endpoint.
   class SessionsController < Devise::SessionsController
     skip_before_action :verify_authenticity_token, only: [:create]
     respond_to :json
@@ -8,14 +9,13 @@ module Users
       user_password = params[:session][:password]
       user_email = params[:session][:email]
       user = user_email.present? && User.find_by(email: user_email)
-            
-      if user and user.valid_password? user_password
+
+      if user && user.valid_password?(user_password)
         sign_in user, store: false
-        # user.generate_authentication_token!
         user.save
         render json: user, status: 200
       else
-        render json: { errors: "Invalid email or password" }, status: 422
+        render json: { errors: 'Invalid email or password' }, status: 422
       end
     end
 
