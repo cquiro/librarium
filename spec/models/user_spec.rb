@@ -9,6 +9,7 @@ RSpec.describe User, type: :model do
   it { should respond_to(:email) }
   it { should respond_to(:password) }
   it { should respond_to(:password_confirmation) }
+  it { should respond_to(:authentication_token) }
 
   it "is valid with name, email, password and password_digest" do
     expect(@user).to be_valid
