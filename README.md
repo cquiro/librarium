@@ -1,24 +1,16 @@
-# README
+[![Build Status](https://travis-ci.org/cquiro/librarium.svg?branch=models)](https://travis-ci.org/cquiro/librarium)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+#Librarium
 
-* Ruby version
+Library app with a Rails backend and an AndgularJS frontend.
 
-* System dependencies
+Basic functionality:
 
-* Configuration
+* Users can favorite books.
+* Users can add books to a "reading wishlist".
+* Users can comment on books.
+* Users can see each book's basic info.
+* Users can search books by genre, title, date published and author.
+* Users can follow other users and get notifications about their activity.
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
