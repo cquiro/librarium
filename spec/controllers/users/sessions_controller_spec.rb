@@ -26,17 +26,34 @@ RSpec.describe Users::SessionsController, type: :controller do
 
 
     context "when the credentials are incorrect" do
-      before :each do
-        credentials = { email: @user.email, password: 'invalid_password' }
-        post :create, params: { session: credentials }
+      context "with incorrect password" do
+        before :each do
+          credentials = { email: @user.email, password: 'invalid_password' }
+          post :create, params: { session: credentials }
+        end
+
+        it "returns json error response" do
+          expect(response.body).to include 'Invalid password'
+        end
+
+        it "has a 401 unauthorized status" do
+          expect(response.status).to eq 401  
+        end
       end
 
-      it "returns a json with an error" do
-        expect(response.body).to include "Invalid email or password"
-      end
+      context "with incorrect email" do
+        before :each do
+          credentials = { email: 'incorrect_email', password: '123456' }
+          post :create, params: { session: credentials }
+        end
 
-      it "has a 422 status" do
-        expect(response.status).to eq 422  
+        it "returns json error response'" do
+          expect(response.body).to include 'User not found'
+        end
+
+        it "has a 404 not_found status" do
+          expect(response.status).to eq 404  
+        end
       end
     end
   end
