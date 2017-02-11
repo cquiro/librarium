@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Users::SessionsController, type: :controller do
   describe "POST #create" do
+    let(:response_token) { JSON.parse(response.body)["authentication_token"] }
     let(:user) { create(:user) }
 
     before :each do
@@ -16,7 +17,7 @@ RSpec.describe Users::SessionsController, type: :controller do
 
       it "returns the user record corresponding to the given credentials" do
         user.reload
-        response_token = JSON.parse(response.body)["authentication_token"]
+        # response_token = JSON.parse(response.body)["authentication_token"]
         expect(response_token).to eq user.authentication_token
       end
 
