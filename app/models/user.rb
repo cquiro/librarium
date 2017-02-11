@@ -20,5 +20,5 @@ class User < ActiveRecord::Base
                                  foreign_key: 'followee_id',
                                  dependent: :destroy
   has_many :followers, through: :inverse_connections, source: :user
-  validates :name, :email, :password, :password_confirmation,  presence: true
+  validates :name, :email, :password, :password_confirmation, presence: true
 end
