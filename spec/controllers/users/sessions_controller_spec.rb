@@ -17,7 +17,6 @@ RSpec.describe Users::SessionsController, type: :controller do
 
       it "returns the user record corresponding to the given credentials" do
         user.reload
-        # response_token = JSON.parse(response.body)["authentication_token"]
         expect(response_token).to eq user.authentication_token
       end
 
