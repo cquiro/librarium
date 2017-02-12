@@ -28,7 +28,7 @@ RSpec.describe UsersController, type: :controller do
                                  format: :json
       end
 
-      it "renders the updated json user in json format" do
+      it "renders the updated user in json format" do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response[:email]).to eq 'new@email.com'
       end
