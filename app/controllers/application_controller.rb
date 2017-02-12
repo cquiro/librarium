@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base # :nodoc:
-  protect_from_forgery with: :exception
+  protect_from_forgery with: :null_session
 
   before_action :configure_permited_parameters, if: :devise_controller?
 
