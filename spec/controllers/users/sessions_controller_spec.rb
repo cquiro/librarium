@@ -33,8 +33,8 @@ RSpec.describe Users::SessionsController, type: :controller do
           post :create, params: { session: credentials }
         end
 
-        it "returns json error response" do
-          expect(response.body).to include 'Invalid password'
+        it "returns 'null'" do
+          expect(response.body).to eq 'null'
         end
 
         it "has a 401 unauthorized status" do
@@ -48,8 +48,8 @@ RSpec.describe Users::SessionsController, type: :controller do
           post :create, params: { session: credentials }
         end
 
-        it "returns json error response" do
-          expect(response.body).to include 'User not found'
+        it "returns 'null'" do
+          expect(response.body).to eq 'null'
         end
 
         it "has a 404 not_found status" do
