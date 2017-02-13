@@ -12,9 +12,11 @@ module Users
         user.save
         render json: user, status: :ok
       elsif !user
-        render json: { errors: 'User not found' }, status: :not_found
+        render json: nil, status: :not_found
+        # render json: { errors: 'User not found' }, status: :not_found
       else
-        render json: { errors: 'Invalid password' }, status: :unauthorized
+        render json: nil, status: :unauthorized
+        # render json: { errors: 'Invalid password' }, status: :unauthorized
       end
     end
 
