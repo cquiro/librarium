@@ -11,7 +11,6 @@ RSpec.describe UsersController, type: :controller do
     end
     
     it "returns the user information" do
-      user_response = JSON.parse(response.body, symbolize_names: true)
       expect(user_response[:name]).to eq user.name
       expect(user_response[:email]).to eq user.email
       expect(user_response[:admin]).to eq user.admin
