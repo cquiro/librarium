@@ -22,8 +22,7 @@ RSpec.describe UsersController, type: :controller do
     context "when is succesfully updated" do
       before :each do
         sign_in user
-        put :update, params: { id: user.id,
-                               user: { email: 'new@email.com' } }, format: :json
+        put :update, params: { user: { email: 'new@email.com' } }, format: :json
       end
 
       it "renders the updated user in json format" do
