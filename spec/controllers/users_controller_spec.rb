@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  describe "GET #show" do
-    let(:user) { create(:user) }
+  let(:user) { create(:user) }
+  let(:user_response) { JSON.parse(response.body, symbolize_names: true) }
 
+  describe "GET #show" do
     before :each do
       sign_in user
       get :show, params: { id: user.id }, format: :json
@@ -17,19 +18,15 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe "PATCH #update" do
-    let(:user) { create(:user) }
-
+  describe "PUT #update" do
     context "when is succesfully updated" do
       before :each do
         sign_in user
-        patch :update, params: { id: user.id,
-                                 user: { email: 'new@email.com' } }, 
-                                 format: :json
+        put :update, params: { id: user.id,
+                               user: { email: 'new@email.com' } }, format: :json
       end
 
       it "renders the updated user in json format" do
-        user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response[:email]).to eq 'new@email.com'
       end
 
@@ -47,7 +44,6 @@ RSpec.describe UsersController, type: :controller do
       end
 
       it "renders json errors" do
-        user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response[:errors][:email]).to include 'is invalid'
       end
 
