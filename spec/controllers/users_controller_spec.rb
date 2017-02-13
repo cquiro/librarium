@@ -36,9 +36,7 @@ RSpec.describe UsersController, type: :controller do
     context "when it is not updated" do
       before :each do
         sign_in user
-        patch :update, params: { id: user.id,
-                                 user: { email: 'bademail.com' } },
-                                 format: :json
+        put :update, params: { user: { email: 'bademail.com' } }, format: :json
       end
 
       it "renders json errors" do
