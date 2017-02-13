@@ -2,6 +2,14 @@
 # several other users. This model is designed to have a self-referential
 # association implemented via a self-join table named connections.
 class User < ActiveRecord::Base
+  # Make user model token authenticatable. This is part of the
+  # simple_token_authentication gem configuration.
+  acts_as_token_authenticatable
+
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable
   has_many :comments
   has_many :favorites
   has_many :wishlists
@@ -12,4 +20,5 @@ class User < ActiveRecord::Base
                                  foreign_key: 'followee_id',
                                  dependent: :destroy
   has_many :followers, through: :inverse_connections, source: :user
+  validates :name, :email, :password, :password_confirmation, presence: true
 end
