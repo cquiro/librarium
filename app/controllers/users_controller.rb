@@ -9,11 +9,10 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = current_user
-    if user.update_attributes(user_params)
-      render json: user, status: :ok
+    if current_user.update_attributes(user_params)
+      render json: current_user, status: :ok
     else
-      render json: { errors: user.errors }, status: :unprocessable_entity
+      render json: { errors: current_user.errors }, status: :unprocessable_entity
     end
   end
 
