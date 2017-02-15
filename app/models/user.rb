@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
                                  foreign_key: 'followee_id',
                                  dependent: :destroy
   has_many :followers, through: :inverse_connections, source: :user
+
   validates :name, :email, presence: true
   validates :password, :password_confirmation,
             presence: true, length: { minimum: 6, maximum: 128 }, on: :create
