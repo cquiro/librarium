@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-
 ruby '2.4.0'
 gem 'rails', '~> 5.0.1'
 gem 'pg', '~> 0.18'
@@ -19,6 +18,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'rubocop', '~> 0.47.1', require: false
 gem 'devise', '~> 4.2.0'
 gem 'simple_token_authentication', '~> 1.15.1'
+gem 'kaminari', '~> 1.0.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

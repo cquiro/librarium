@@ -1,7 +1,6 @@
 # Users controller to manage show and update actions.
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update]
-  respond_to :json
 
   def show
     user = User.find(params[:id])

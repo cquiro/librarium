@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170209021724) do
+ActiveRecord::Schema.define(version: 20170214194902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(version: 20170209021724) do
     t.string   "language"
     t.string   "edition"
     t.string   "publisher"
+    t.float    "avg_score"
+    t.index ["avg_score"], name: "index_books_on_avg_score", using: :btree
   end
 
   create_table "comments", force: :cascade do |t|
