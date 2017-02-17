@@ -6,15 +6,14 @@ module Users
 
     # POST /resource/sign_in
     def create
+      authorize :user
       user = User.find_by(email: session_params[:email])
       if user && user.valid_password?(session_params[:password])
         sign_in user, store: false
-        user.save
         render json: user, status: :ok
-      elsif !user
-        render json: nil, status: :not_found
       else
-        render json: nil, status: :unauthorized
+        user.nil? ? (status = :not_found) : (status = :unauthorized)
+        render nothing: true, status: status
       end
     end
 

@@ -7,6 +7,7 @@ module Users
     # POST /resource
     def create
       build_resource(user_params)
+      authorize resource
       if resource.save
         render json: resource, status: :created
       else

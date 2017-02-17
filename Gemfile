@@ -18,6 +18,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'rubocop', '~> 0.47.1', require: false
 gem 'devise', '~> 4.2.0'
 gem 'simple_token_authentication', '~> 1.15.1'
+gem 'pundit', '~> 1.1.0'
 gem 'kaminari', '~> 1.0.1'
 
 group :development, :test do

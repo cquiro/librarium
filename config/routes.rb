@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'books#index'
 
-  resources :books, only: [:index]
+  resources :books, only: [:show, :index, :create]
 
   devise_for :users, controllers: { registrations: 'users/registrations',
                                     sessions: 'users/sessions' }
