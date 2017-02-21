@@ -50,39 +50,208 @@ RSpec.describe BooksController, type: :controller do
   end
   
   describe "POST #create" do
-    context "when is succesfully created" do
-      let(:book_attributes) { attributes_for(:book) }
-      
+    let(:book_attributes) { attributes_for(:book) }
+    let(:invalid_book_attributes) { attributes_for(:book, title: '') }
+
+    context "when user is signed in and is an admin" do
+      let(:user) { create(:user, admin: true) }
+ 
+      before :each do
+        sign_in user
+      end
+
+      context "when is succesfully created" do
+        before :each do
+          post :create, params: { book: book_attributes }
+        end
+
+        it "renders the created book in json format" do
+          expect(book_response[:title]).to eq book_attributes[:title]
+        end
+
+        it "has a 201 status" do
+          expect(response.status).to eq 201
+        end
+      end
+
+      context "when is not created" do
+        before :each do
+          post :create, params: { book: invalid_book_attributes }
+        end
+
+        it "renders json errors" do
+          expect(book_response).to have_key :errors
+        end
+
+        it "renders specific errors on why book is not valid" do
+          expect(book_response[:errors][:title]).to include "can't be blank"
+        end
+
+        it "has a 422 status" do
+          expect(response.status).to eq 422
+        end
+      end
+    end
+
+    context "when user is signed in but is not an admin" do
+      let(:user) { create(:user, admin: false) }
+ 
+      before :each do
+        sign_in user
+        post :create, params: { book: book_attributes }
+      end
+
+      it "returns nothing in the response body" do
+        expect(response.body).to eq '' 
+      end
+
+      it "returns status code 401" do
+        expect(response.status).to eq 401
+      end
+    end
+
+    context "when user is not signed in" do
       before :each do
         post :create, params: { book: book_attributes }
       end
 
-      it "renders the created book in json format" do
-        expect(book_response[:title]).to eq book_attributes[:title]
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
       end
 
-      it "has a 201 status" do
-        expect(response.status).to eq 201
+      it "returns status code 401" do
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe "PUT #update" do
+    let(:book) { create(:book) }
+
+    context "when user is signed in and is an admin" do
+      let(:user) { create(:user, admin: true) }
+
+      before :each do
+        sign_in user
+      end
+
+      context "when is succesfully updated" do
+        before :each do
+          put :update, params: { id: book.id, 
+                                 book: { edition: 'Second Edition' } }
+        end
+
+        it "renders the updated book in json format" do
+          expect(book_response[:edition]).to eq 'Second Edition'
+        end
+
+        it "has a 200 status" do
+          expect(response.status).to eq 200
+        end
+      end
+
+      context "when is not updated" do
+        before :each do
+          put :update, params: { id: book.id, 
+                                 book: { title: '' } }
+        end
+
+        it "renders json errors" do
+          expect(book_response).to have_key :errors
+        end
+
+        it "renders specific errors on why book is not valid" do
+          expect(book_response[:errors][:title]).to include "can't be blank"
+        end
+
+        it "has a 422 status" do
+          expect(response.status).to eq 422
+        end
       end
     end
 
-    context "when is not created" do
-      let(:invalid_book_attributes) { attributes_for(:book, title: '') }
+    context "when user is signed in but is not an admin" do
+      let(:user) { create(:user, admin: false) }
 
       before :each do
-        post :create, params: { book: invalid_book_attributes }
+        sign_in user
+        put :update, params: { id: book.id, 
+                               book: { edition: 'Third Edition' } }
       end
 
-      it "renders json errors" do
-        expect(book_response).to have_key :errors
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
       end
 
-      it "renders specific errors on why book is not valid" do
-        expect(book_response[:errors][:title]).to include "can't be blank"
+      it "returns status code 401" do
+        expect(response.status).to eq 401
+      end
+    end
+
+    context "when user is not signed in" do
+      before :each do
+        put :update, params: { id: book.id, 
+                               book: { edition: 'Third Edition' } }
+      end
+      
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
       end
 
-      it "has a 422 status" do
-        expect(response.status).to eq 422
+      it "returns status code 401" do
+        expect(response.status).to eq 401
+      end
+    end
+  end
+
+  describe "DELETE #destroy" do
+    let(:book) { create(:book) }
+
+    context "when user is signed in and is an admin" do
+      let(:user) { create(:user, admin: true) }
+
+      before :each do
+        sign_in user
+        delete :destroy, params: { id: book.id }
+      end
+
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
+      end
+
+      it "returns a 204 code" do
+        expect(response.status).to eq 204
+      end
+    end
+
+    context "when user is signed in but is not an admin" do
+      let(:user) { create(:user, admin: false) }
+
+      before :each do
+        sign_in user
+        delete :destroy, params: { id: book.id }
+      end
+
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
+      end
+      
+      it "returns 401 code" do
+        expect(response.status).to eq 401
+      end
+    end
+
+    context "when user is not signed in" do
+      before :each do
+        delete :destroy, params: { id: book.id }
+      end
+
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
+      end
+
+      it "returns 401 status code" do
+        expect(response.status).to eq 401
       end
     end
   end

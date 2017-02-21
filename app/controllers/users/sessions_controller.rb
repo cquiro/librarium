@@ -13,7 +13,7 @@ module Users
         render json: user, status: :ok
       else
         user.nil? ? (status = :not_found) : (status = :unauthorized)
-        render nothing: true, status: status
+        head status
       end
     end
 

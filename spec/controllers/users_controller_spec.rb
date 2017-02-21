@@ -5,23 +5,32 @@ RSpec.describe UsersController, type: :controller do
   let(:user_response) { JSON.parse(response.body, symbolize_names: true) }
 
   describe "GET #show" do
-    before :each do
-      sign_in user
+    context "when the user exists" do
+      before :each do
+        sign_in user
+      end
+
+      it "returns the user information" do
+        get :show, params: { id: user.id }, format: :json
+
+        expect(user_response[:name]).to eq user.name
+        expect(user_response[:email]).to eq user.email
+        expect(user_response[:admin]).to eq user.admin
+      end
     end
-
-    it "returns the user information when the user exists" do
-      get :show, params: { id: user.id }, format: :json
-
-      expect(user_response[:name]).to eq user.name
-      expect(user_response[:email]).to eq user.email
-      expect(user_response[:admin]).to eq user.admin
-    end
-
-    it "returns nothing and status 404 when user does not exists" do
-      get :show, params: { id: 'not valid' }, format: :json
+    
+    context "when the users does not exists" do
+      before :each do
+        get :show, params: { id: 'not valid' }, format: :json
+      end
       
-      expect(response.body).to eq ''
-      expect(response.status).to eq 404
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
+      end
+
+      it "returns status code 404" do
+        expect(response.status).to eq 404
+      end
     end
   end
 

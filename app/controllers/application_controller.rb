@@ -23,11 +23,11 @@ class ApplicationController < ActionController::Base # :nodoc:
 
   # return status 401 when pundit authorization fails
   def user_not_authorized
-    render nothing: true, status: :unauthorized
+    head :unauthorized
   end
 
   # return status 404 when a record is not found.
   def record_not_found
-    render nothing: true, status: :not_found
+    head :not_found
   end
 end

@@ -11,12 +11,30 @@ class BooksController < ApplicationController
   end
 
   def create
+    authorize :book
     book = Book.new(book_params)
     if book.save
       render json: book, status: :created
     else
       render json: { errors: book.errors }, status: :unprocessable_entity
     end
+  end
+
+  def update
+    authorize :book
+    book = Book.find(params[:id])
+    if book.update(book_params)
+      render json: book, status: :ok
+    else
+      render json: { errors: book.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    authorize :book
+    book = Book.find(params[:id])
+    book.destroy
+    head :no_content
   end
 
   private
