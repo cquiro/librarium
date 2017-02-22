@@ -1,4 +1,4 @@
-# Pundit class to controll authorization for user actions.
+# Pundit class to control authorization for user actions.
 class UserPolicy < ApplicationPolicy
   # Signed in users cannot create a new session or a new user.
   def create?

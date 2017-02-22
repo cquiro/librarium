@@ -1,4 +1,4 @@
-# Pudit class to control authorization for book actions.
+# Pundit class to control authorization for book actions.
 class BookPolicy < ApplicationPolicy
   def create?
     user.present? && user.admin?

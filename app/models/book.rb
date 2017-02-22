@@ -2,10 +2,10 @@
 # A Book instance will have many users through favorites and also
 # it will have many users through wishlists.
 class Book < ActiveRecord::Base
-  has_many :comments
-  has_many :favorites
-  has_many :wishlists
-  has_many :ratings
+  has_many :comments, dependent: :destroy
+  has_many :favorites, dependent: :destroy
+  has_many :wishlists, dependent: :destroy
+  has_many :ratings, dependent: :destroy
   validates :title, :author, :genre, :pub_date, presence: true
 
   scope :filter_by_title, lambda { |title|

@@ -3,7 +3,9 @@ Rails.application.routes.draw do
 
   root 'books#index'
 
-  resources :books, only: [:show, :index, :create, :update, :destroy]
+  resources :books, except: [:new, :edit] do
+    resources :comments, except: [:new, :edit]
+  end
 
   devise_for :users, controllers: { registrations: 'users/registrations',
                                     sessions: 'users/sessions' }

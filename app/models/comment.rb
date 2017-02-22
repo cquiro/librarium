@@ -4,4 +4,6 @@ class Comment < ActiveRecord::Base
   belongs_to :user
   belongs_to :book
   has_many :notifications, as: :notifiable
+
+  validates :body, presence: true
 end
