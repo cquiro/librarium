@@ -33,8 +33,8 @@ class Book < ActiveRecord::Base
   }
 
   def calculate_avg_score
-    sum = ratings.inject(0.0) { |accum, rating| accum + rating.score }
-    sum / ratings.size
+    avg = ratings.average(:score).to_f
+    update_attributes(avg_score: avg)
   end
 
   def self.search(params = {})

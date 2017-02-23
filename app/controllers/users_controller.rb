@@ -1,9 +1,10 @@
 # Users controller to manage show and update actions.
 class UsersController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:update]
+  before_action :authorization, only: [:follow, :unfollow,
+                                       :following, :followers]
 
   def show
-    user = User.find(params[:id])
     render json: user, status: :ok
   end
 
@@ -17,23 +18,44 @@ class UsersController < ApplicationController
   end
 
   def follow
-    authorize :user
-
-    return head :precondition_failed if following(user)
+    return head :precondition_failed if follows(user)
 
     current_user.followees << user
     head :ok
   end
 
   def unfollow
-    authorize :user
     current_user.followees.delete(user)
     head :no_content
   end
 
+  def following
+    following = user.followees
+    render json: following, status: :ok
+  end
+
+  def followers
+    followers = user.followers
+    render json: followers, status: :ok
+  end
+
+  def favorite_books
+    books = user.favorite_books
+    render json: books, status: :ok
+  end
+
+  def books_to_read
+    books = user.books_to_read
+    render json: books, status: :ok
+  end
+
   private
 
-  def following(user)
+  def authorization
+    authorize :user
+  end
+
+  def follows(user)
     current_user.followees.include?(user)
   end
 

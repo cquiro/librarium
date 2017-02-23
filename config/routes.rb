@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   resources :books, except: [:new, :edit] do
     resources :comments, except: [:new, :edit]
-
     resources :favorites, only: [:create, :destroy]
     resources :wishlists, only: [:create, :destroy]
 
@@ -23,9 +22,9 @@ Rails.application.routes.draw do
     end
 
     member do
+      get :following, :followers, :favorite_books, :books_to_read
       post 'follow'
       delete 'unfollow'
     end
   end
-
 end

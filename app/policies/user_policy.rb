@@ -5,11 +5,21 @@ class UserPolicy < ApplicationPolicy
     user.nil?
   end
 
-  def follow?
+  # only a signed in user can see which user are being followed by a given user.
+  def following?
     user.present?
   end
 
+  # only a signed in user can see which users follow a given user.
+  def followers?
+    following?
+  end
+
+  def follow?
+    following?
+  end
+
   def unfollow?
-    follow?
+    following?
   end
 end
