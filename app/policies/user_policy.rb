@@ -4,4 +4,12 @@ class UserPolicy < ApplicationPolicy
   def create?
     user.nil?
   end
+
+  def follow?
+    user.present?
+  end
+
+  def unfollow?
+    follow?
+  end
 end

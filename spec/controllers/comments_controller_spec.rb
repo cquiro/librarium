@@ -53,7 +53,7 @@ RSpec.describe CommentsController, type: :controller do
       context "when is succesfully created" do
         before :each do
           post :create, params: { book_id: book.id,
-                                  comment: comment_attributes }    
+                                  comment: comment_attributes }
         end
 
         it "renders the comment in json format" do

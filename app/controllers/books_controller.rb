@@ -1,7 +1,8 @@
 # Controller to handle book management
 class BooksController < ApplicationController
+  before_action :authorization, except: [:show, :index]
+
   def show
-    book = Book.find(params[:id])
     render json: book, status: :ok
   end
 
@@ -11,7 +12,6 @@ class BooksController < ApplicationController
   end
 
   def create
-    authorize :book
     book = Book.new(book_params)
     if book.save
       render json: book, status: :created
@@ -21,8 +21,6 @@ class BooksController < ApplicationController
   end
 
   def update
-    authorize :book
-    book = Book.find(params[:id])
     if book.update(book_params)
       render json: book, status: :ok
     else
@@ -31,13 +29,28 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    authorize :book
-    book = Book.find(params[:id])
     book.destroy
     head :no_content
   end
 
+  def rate
+    rating.update_attributes(score: params[:score])
+    head :ok
+  end
+
   private
+
+  def authorization
+    authorize :book
+  end
+
+  def rating
+    @rating ||= current_user.ratings.find_or_create_by(book_id: book.id)
+  end
+
+  def book
+    @book ||= Book.find(params[:id])
+  end
 
   def book_params
     params.require(:book).permit(:title, :author, :pub_date, :genre, :cover,

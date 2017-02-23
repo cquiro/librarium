@@ -12,7 +12,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :favorite_books, through: :favorites, source: :book
   has_many :wishlists, dependent: :destroy
+  has_many :books_to_read, through: :wishlists, source: :book
   has_many :ratings, dependent: :destroy
   has_many :connections, dependent: :destroy
   has_many :followees, through: :connections
@@ -26,4 +28,8 @@ class User < ActiveRecord::Base
             presence: true, length: { minimum: 6, maximum: 128 }, on: :create
   validates :password, :password_confirmation,
             length: { minimum: 6, maximum: 128 }, on: :update, allow_blank: true
+
+  def following?(other_user)
+    followees.include?(other_user)
+  end
 end

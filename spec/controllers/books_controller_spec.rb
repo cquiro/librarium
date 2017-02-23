@@ -255,4 +255,81 @@ RSpec.describe BooksController, type: :controller do
       end
     end
   end
+
+  describe "POST #rate" do
+    let(:user) { create(:user) }
+    let(:book) { create(:book) }
+
+    context "when user is signed in" do
+      before :each do
+        sign_in user
+      end
+
+      context "the user has not rated this book before" do
+        before :each do  
+          post :rate, params: { id: book.id, score: 7 }
+        end
+
+        it "returns nothing in the response body" do
+          expect(response.body).to eq ''
+        end
+
+        it "creates a rating that belongs to user" do
+          expect(Rating.last.user).to eq user
+        end
+
+        it "creates a rating the belongs to book" do
+          expect(Rating.last.book).to eq book
+        end
+
+        it "creates rating with a score of 7" do
+          expect(Rating.last.score).to eq 7
+        end
+
+        it "has a 200 status code" do
+          expect(response.status).to eq 200
+        end
+      end
+
+      context "the user had rated the same book before" do
+        let!(:rating) { Rating.create(user_id: user.id, book_id: book.id,
+                                      score: 5) }
+
+        before :each do  
+          post :rate, params: { id: book.id, score: 9 }
+        end
+
+        it "returns nothing in the reponse body" do
+          expect(response.body).to eq ''
+        end
+
+        it "updates the existing rating" do
+          expect(user.ratings.find_by(book_id: book.id)).to eq rating
+        end
+
+        it "updates the rating to have a score of 9" do
+          rating.reload
+          expect(rating.score).to eq 9
+        end
+
+        it "has a 200 status code" do
+          expect(response.status).to eq 200
+        end
+      end
+    end
+
+    context "when user is signed in" do
+      before :each do  
+        post :rate, params: { id: book.id, score: 7 }
+      end
+
+      it "returns nothing in the response body" do
+        expect(response.body).to eq ''
+      end
+
+      it "has a 401 status code" do
+        expect(response.status).to eq 401
+      end
+    end
+  end
 end

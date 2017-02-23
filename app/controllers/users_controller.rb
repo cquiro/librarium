@@ -16,7 +16,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def follow
+    authorize :user
+
+    return head :precondition_failed if following(user)
+
+    current_user.followees << user
+    head :ok
+  end
+
+  def unfollow
+    authorize :user
+    current_user.followees.delete(user)
+    head :no_content
+  end
+
   private
+
+  def following(user)
+    current_user.followees.include?(user)
+  end
+
+  def user
+    @user ||= User.find(params[:id])
+  end
 
   def user_params
     params.require(:user).permit(:name, :email)

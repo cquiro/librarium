@@ -1,14 +1,19 @@
 # Pundit class to control authorization for book actions.
 class BookPolicy < ApplicationPolicy
+  # only admin users can create, update or destroy a book.
   def create?
     user.present? && user.admin?
   end
 
   def update?
-    user.present? && user.admin?
+    create?
   end
 
   def destroy?
-    user.present? && user.admin?
+    create?
+  end
+
+  def rate?
+    user.present?
   end
 end

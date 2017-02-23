@@ -22,7 +22,7 @@ RSpec.describe User, type: :model do
   end
 
   it "is invalid without an email" do
-    no_email_user = FactoryGirl.build(:user, email: nil)
+    no_email_user = build(:user, email: nil)
     no_email_user.valid?
     expect(no_email_user.errors[:email]).to include("can't be blank") 
   end
