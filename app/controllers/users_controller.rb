@@ -19,8 +19,8 @@ class UsersController < ApplicationController
 
   def follow
     return head :precondition_failed if follows(user)
-
     current_user.followees << user
+    UserMailer.new_follower_notification(current_user, user).deliver_now
     head :ok
   end
 

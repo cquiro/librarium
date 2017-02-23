@@ -94,6 +94,16 @@ RSpec.describe UsersController, type: :controller do
         it "has a 200 status code" do
           expect(response.status).to eq 200
         end
+
+        it "sends an email to otheri_user" do
+          expect(ActionMailer::Base.deliveries.last.to)
+            .to eq [other_user.email]
+        end
+
+        it "sends and email stating user follows other_user" do
+          expect(ActionMailer::Base.deliveries.last.body.encoded)
+            .to include "#{user.name} is now following"
+        end
       end
 
       context "when user is already following other_user" do
