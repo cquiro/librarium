@@ -1,0 +1,4 @@
+Metrics/BlockLength:
+  Exclude:
+    - 'app/admin/dashboard.rb'
+    - 'app/admin/user.rb'

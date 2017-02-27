@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base # :nodoc:
-  respond_to :json
+  respond_to :json, :html
   protect_from_forgery with: :null_session
 
   include Pundit
