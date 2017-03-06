@@ -21,6 +21,9 @@ gem 'simple_token_authentication', '~> 1.15.1'
 gem 'pundit', '~> 1.1.0'
 gem 'kaminari', '~> 1.0.1'
 gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
+gem 'sidekiq', '~> 4.2.9'
+gem 'sinatra', github: 'sinatra/sinatra'
+gem 'sidekiq-cron', '~> 0.4.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

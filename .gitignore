@@ -21,3 +21,5 @@ Gemfile.lock
 *.swo
 
 .env
+
+dump.rdb

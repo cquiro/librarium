@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :book do
-    title { Faker::Book.unique.title }
+    title Faker::Book.unique.title
     author { Faker::Book.author }
     pub_date { Faker::Date.between(10.years.ago, 10.days.ago) }
     genre { Faker::Book.genre }

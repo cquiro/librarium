@@ -2,9 +2,7 @@
 class FavoritesController < ApplicationController
   def create
     authorize :favorite
-
     return head :precondition_failed if favorited(book)
-
     current_user.favorite_books << book
     head :ok
   end

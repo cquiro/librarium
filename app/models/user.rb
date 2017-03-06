@@ -10,6 +10,8 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  has_many :notifications, foreign_key: 'notifier_id', dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_books, through: :favorites, source: :book
@@ -28,8 +30,4 @@ class User < ActiveRecord::Base
             presence: true, length: { minimum: 6, maximum: 128 }, on: :create
   validates :password, :password_confirmation,
             length: { minimum: 6, maximum: 128 }, on: :update, allow_blank: true
-
-  def following?(other_user)
-    followees.include?(other_user)
-  end
 end

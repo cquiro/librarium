@@ -1,0 +1,4 @@
+send_weekly_activity_email:
+  cron: "0 18 * * 0"
+  class: "SendWeeklyActivityEmailsJob"
+  queue: default

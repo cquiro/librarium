@@ -71,6 +71,15 @@ RSpec.describe CommentsController, type: :controller do
         it "has a 200 status code" do
           expect(response.status).to eq 200
         end
+ 
+        it "creates a new notification that belongs to new comment" do
+          expect(Notification.last.notifiable_type).to eq "Comment"
+          expect(Notification.last.notifiable_id).to eq Comment.last.id
+        end
+
+        it "create a notification that belongs to user that comments" do
+          expect(Notification.last.notifier_id).to eq user.id
+        end
       end
 
       context "when is not created" do

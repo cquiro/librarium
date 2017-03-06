@@ -1,0 +1,16 @@
+<p><%= @recipient.name %>,<p>
+
+<p>This is what your Libarium network has been up to:</p>
+
+<ul>
+  <% @activity_array.each do |activity| %>
+    <li>
+      <% followed_user = User.find(activity["notifier_id"]) %>
+      <%= followed_user.name %> (<%= followed_user.email %>) made <%= pluralize(activity["comm_count"], 'comment') %>, favorited <%= pluralize(activity["fav_count"], 'book') %> and added <%= pluralize(activity["wish_count"], 'book') %> to his/her "books to read" list.
+    </li>
+  <% end %>
+</ul>
+
+<p>Best regards,</p>
+
+<p>The Librarium Team</p>

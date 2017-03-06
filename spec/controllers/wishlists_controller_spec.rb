@@ -30,6 +30,15 @@ RSpec.describe WishlistsController, type: :controller do
       it "belongs_to book" do
         expect(Wishlist.last.book_id).to eq book.id
       end
+ 
+      it "creates a new notification that belongs to new wishlist" do
+        expect(Notification.last.notifiable_type).to eq "Wishlist"
+        expect(Notification.last.notifiable_id).to eq Wishlist.last.id
+      end
+
+      it "create a notification that belongs to user that wishlists" do
+        expect(Notification.last.notifier_id).to eq user.id
+      end
     end
 
     context "when the user is not signed in" do

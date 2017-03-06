@@ -34,6 +34,15 @@ RSpec.describe FavoritesController, type: :controller do
         it "belongs_to book" do
           expect(Favorite.last.book_id).to eq book.id
         end
+
+        it "creates a new notification that belongs to new favorite" do
+          expect(Notification.last.notifiable_type).to eq "Favorite"
+          expect(Notification.last.notifiable_id).to eq Favorite.last.id
+        end
+
+        it "create a notification that belongs to user that favorites" do
+          expect(Notification.last.notifier_id).to eq user.id
+        end
       end
 
       context "when book has been previously favorited" do

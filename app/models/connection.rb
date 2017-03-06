@@ -4,5 +4,6 @@
 class Connection < ActiveRecord::Base
   belongs_to :user
   belongs_to :followee, class_name: 'User'
+  has_many :notifications, as: :notifiable
   validates :user_id, :followee_id, presence: true
 end
