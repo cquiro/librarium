@@ -23,5 +23,13 @@ module Librarium
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths += %W(#{config.root}/app/queries)
     config.active_job.queue_adapter = :sidekiq
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, 
+                      :methods => [:get, :put, :post, :options]
+      end
+    end
   end
 end

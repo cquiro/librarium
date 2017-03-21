@@ -24,6 +24,7 @@ gem 'activeadmin', git: 'https://github.com/activeadmin/activeadmin'
 gem 'sidekiq', '~> 4.2.9'
 gem 'sinatra', github: 'sinatra/sinatra'
 gem 'sidekiq-cron', '~> 0.4.5'
+gem 'rack-cors', '~> 0.4.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
